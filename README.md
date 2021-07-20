@@ -1,8 +1,6 @@
-# Neeto::Insights::Ruby
+# NeetoInsightsRuby
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/neeto/insights/ruby`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is the Ruby wrapper for the data push API of neetoInsights.
 
 ## Installation
 
@@ -22,14 +20,124 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+neetoInsights has tracks 2 entities: `user` and `company`. You need to figure out the models in your application that correspond to these two entities and then map them together. Mapping involves including a module from the gem in your model and defining a few mandatory attributes and as many custom attributes as you need.
 
-## Development
+Suppose in your application `OrganizationUser` is the user model and `Organization` is the company to which user belongs. Follow the steps below to integrate them with neetoInsights:
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test-unit` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+### Initializer
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Add a file `config/initializers/neeto_insights.rb`
 
-## Contributing
+```
+NeetoInsightsRuby.configure do |config|
+  config.push_key = ENV["NEETO_INSIGHTS_PUSH_KEY"]
+  config.user_model    = "OrganizationUser"
+  config.company_model = "Organization"
+end
+```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/neeto-insights-ruby.
+The gem will try to push data to neetoInsights only if `push_key` is configured. You can skip `development`, `test` environments by not providing a `push_key`.
+
+### User mapping
+
+```
+class OrganizationUser < ApplicationRecord
+  include NeetoInsightsRuby::User
+  include NeetoInsights::UserConcern
+end
+
+# frozen_string_literal: true
+
+module NeetoInsights
+  module UserConcern
+    extend ActiveSupport::Concern
+
+    # Mandatory attributes
+    
+    def neeto_insights_identifier
+      self.id
+    end
+
+    def neeto_insights_name
+      user.name
+    end
+
+    # Optional - provide this if your user belongs to a company/organization 
+    # and you want to record this relationship in neetoInsights
+    def neeto_insights_company_identifier
+      organization.id
+    end
+
+    def neeto_insights_signed_up_at
+      created_at
+    end
+
+    # Custom Attributes
+    
+    def neeto_insights_properties
+      {
+        user_id: user.id,
+        last_time_entry: last_time_entry&.recorded_on,
+        recent_projects: recent_projects,
+        role: role,
+        verified: user.verified
+      }
+    end
+
+    def last_time_entry
+      # code to fetch the last time entry of the user.
+    end
+
+    def recent_projects
+      # code to fetch the recent projects of the user.
+    end
+  end
+end
+```
+
+### Company mapping
+
+```
+class Organization < ApplicationRecord
+  include NeetoInsightsRuby::Company
+  include NeetoInsights::CompanyConcern
+end
+
+# frozen_string_literal: true
+
+module NeetoInsights
+  module CompanyConcern
+    extend ActiveSupport::Concern
+    
+    def neeto_insights_identifier
+      self.id
+    end
+
+    def neeto_insights_name
+      name
+    end
+
+    def neeto_insights_signed_up_at
+      created_at
+    end
+
+    def neeto_insights_properties
+      {
+        clients_count: clients.active.count,
+        projects_count: projects.active.count,
+        invoices_count: invoices.count
+      }
+    end
+  end
+end
+```
+
+
+### Push data to neetoInsights
+
+```
+@organization_user.neeto_insights_push
+@organization.neeto_insights_push
+```
+
+This gem will not push any data automatically to neetoInsights. Data push happens only when `neeto_insights_push` is called. 
