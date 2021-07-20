@@ -1,10 +1,10 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'neeto_insights_ruby'
+require "neeto_insights_ruby/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = 'neeto-insights-ruby'
+  spec.name          = 'neeto_insights_ruby'
   spec.version       = NeetoInsightsRuby::VERSION
   spec.authors       = ['Unnikrishnan KP']
   spec.email         = ['unnikrishnan.kp@bigbinary.com']
