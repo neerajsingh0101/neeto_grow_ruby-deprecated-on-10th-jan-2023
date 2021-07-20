@@ -9,7 +9,7 @@ TODO: Delete this and the text above, and describe your gem
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'neeto-insights-ruby'
+gem 'neeto_insights_ruby', git: "https://github.com/bigbinary/neeto-insights-ruby"
 ```
 
 And then execute:
@@ -18,7 +18,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install neeto-insights-ruby
+    $ gem install neeto_insights_ruby
 
 ## Usage
 
