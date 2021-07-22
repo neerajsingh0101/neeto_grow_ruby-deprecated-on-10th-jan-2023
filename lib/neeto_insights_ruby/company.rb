@@ -1,5 +1,9 @@
 module NeetoInsightsRuby
   module Company
+    def neeto_insights_push_async
+      Thread.new{ neeto_insights_push }
+    end
+    
     def neeto_insights_push
       config = NeetoInsightsRuby.config
 
