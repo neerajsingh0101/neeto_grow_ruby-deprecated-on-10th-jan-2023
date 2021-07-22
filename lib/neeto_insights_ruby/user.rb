@@ -1,7 +1,9 @@
 module NeetoInsightsRuby
   module User
     def neeto_insights_push_async
-      Thread.new{ neeto_insights_push }
+      return unless config.push_key.present?
+
+      NeetoInsightsRuby::PushWorker.perform_async(self)
     end
 
     def neeto_insights_push
