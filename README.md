@@ -146,4 +146,4 @@ You can either use `neeto_insights_push` or `neeto_insights_push_async` to push 
 `neeto_insights_push` sends data asynchronously and would affect the performance of the source app.
 `neeto_insights_push` sends data asynchronously. This is the preferred approach. But this method uses Sidekiq, and *can be used only if SideKiq is configured in your app.*
 
-*This gem will not push any data automatically to neetoInsights. Data push happens only when `neeto_insights_push` or `neeto_insights_push_async` is called.*
+This gem will not push any data automatically to neetoInsights. Data push happens only when `neeto_insights_push` or `neeto_insights_push_async` is called.
