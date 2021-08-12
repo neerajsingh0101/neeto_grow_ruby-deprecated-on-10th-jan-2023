@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-neetoInsights has tracks 2 entities: `user` and `company`. You need to figure out the models in your application that correspond to these two entities and then map them together. Mapping involves including a module from the gem in your model and defining a few mandatory attributes and as many custom attributes as you need.
+neetoInsights tracks 2 entities: `user` and `company`. You need to figure out the models in your application that correspond to these two entities and then map them to `user` and `company`. Mapping involves including a module from the gem in your model and defining a few mandatory attributes and as many custom attributes as you need.
 
 Suppose in your application `OrganizationUser` is the user model and `Organization` is the company to which user belongs. Follow the steps below to integrate them with neetoInsights:
 
