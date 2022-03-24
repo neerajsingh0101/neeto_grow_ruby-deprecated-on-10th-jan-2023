@@ -135,7 +135,7 @@ end
 ### Push data to neetoGrow
 
 ```
-@organization_user.neeto_grow_push
+@user.neeto_grow_push
 @organization.neeto_grow_push
 ```
 
