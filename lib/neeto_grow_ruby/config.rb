@@ -1,16 +1,15 @@
-module NeetoInsightsRuby
+module NeetoGrowRuby
   class Config
     DEFAULT_CONFIGURATION = {
       push_key: nil,
-      push_endpoint: 'https://datapush.neetoinsights.com',
-      user_model: "User",
-      company_model: "Organization",
-      use_ssl: true
+      push_endpoint: 'https://datapush.neetogrow.com',
+      use_ssl: true,
+      user_model: 'User',
+      company_model: 'Organization'
     }.freeze
 
     def initialize(config_from_initialize = {})
-      @config = default_config
-        .merge(config_from_initialize)
+      @config = default_config.merge(config_from_initialize)
     end
 
     def self.inherit(parent, config_from_arguments)
@@ -40,7 +39,7 @@ module NeetoInsightsRuby
       self[:token_lifetime]&.to_i
     end
 
-  protected
+    protected
 
     attr_reader :config, :parent
 

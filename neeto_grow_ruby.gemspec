@@ -1,16 +1,16 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require "neeto_insights_ruby/version"
+require 'neeto_grow_ruby/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'neeto_insights_ruby'
-  spec.version       = NeetoInsightsRuby::VERSION
-  spec.authors       = ['Unnikrishnan KP']
-  spec.email         = ['unnikrishnan.kp@bigbinary.com']
+  spec.name          = 'neeto_grow_ruby'
+  spec.version       = NeetoGrowRuby::VERSION
+  spec.authors       = ['Unnikrishnan KP', 'Sandip Mane']
+  spec.email         = ['unnikrishnan.kp@bigbinary.com', 'sandip.mane@bigbinary.com']
 
-  spec.summary       = 'Ruby wrapper for the neetoInsights API'
-  spec.homepage      = 'http://github.com/bigbinary/neeto-insights-ruby'
+  spec.summary       = 'Ruby wrapper for the neetoGrow API'
+  spec.homepage      = 'http://github.com/bigbinary/neeto_grow_ruby'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
