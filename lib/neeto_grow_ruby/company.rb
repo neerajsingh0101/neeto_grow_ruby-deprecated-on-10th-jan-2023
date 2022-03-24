@@ -1,6 +1,8 @@
 module NeetoGrowRuby
   module Company
     def neeto_grow_push_later
+      return if NeetoGrowRuby.config.push_key.blank?
+
       NeetoGrowRuby::PushJob.perform_later to_global_id.to_s
     end
 
